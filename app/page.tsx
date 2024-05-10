@@ -14,6 +14,13 @@ async function addTodo(formdata:FormData) {
 
   revalidatePath('/')
 }
+async function deletToDo( id : number ,formdata:FormData ) {
+  'use server'
+  console.log(id)
+  await prisma.toDo.delete({where: {id: id}})
+  revalidatePath('/')
+  
+}
 
 export default async function Home() {
   const toDos = await prisma.toDo.findMany()
@@ -34,7 +41,7 @@ export default async function Home() {
         <div>
         <ul>
           <li key='pla'>heder</li>
-          {toDos.map((toDo)=> <li key={toDo.id}>{toDo.toDo}</li>)}
+          {toDos.map((toDo)=> <form><li key={toDo.id}>{toDo.toDo} <button formAction={deletToDo.bind(null, toDo.id)} >X</button></li></form>)}
         </ul>
         </div>
     </main>
