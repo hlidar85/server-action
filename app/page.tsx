@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 async function addTodo(formdata:FormData) {
   'use server'
   const todoDAta = await formdata.get('item')
-  console.log('hello ' + todoDAta)
   let newToDo
   if(todoDAta)
     newToDo = await prisma.toDo.create({data: {toDo: todoDAta as string}}) 
@@ -16,7 +15,6 @@ async function addTodo(formdata:FormData) {
 }
 async function deletToDo( id : number ,formdata:FormData ) {
   'use server'
-  console.log(id)
   await prisma.toDo.delete({where: {id: id}})
   revalidatePath('/')
   
